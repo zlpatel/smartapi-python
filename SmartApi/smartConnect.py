@@ -1,18 +1,12 @@
 from six.moves.urllib.parse import urljoin
-import sys
-import csv
 import json
-import dateutil.parser
-import hashlib
 import logging
-import datetime
-import smartapi.smartExceptions as ex
+import SmartApi.smartExceptions as ex
 import requests
 from requests import get
 import re, uuid
 import socket
-import platform
-from smartapi.version import __version__, __title__
+from SmartApi.version import __version__, __title__
 
 log = logging.getLogger(__name__)
 #user_sys=platform.system()
@@ -230,22 +224,23 @@ class SmartConnect(object):
         if loginResultObject['status']==True:
             jwtToken=loginResultObject['data']['jwtToken']
             self.setAccessToken(jwtToken)
-            refreshToken=loginResultObject['data']['refreshToken']
-            feedToken=loginResultObject['data']['feedToken']
+            refreshToken = loginResultObject['data']['refreshToken']
+            feedToken = loginResultObject['data']['feedToken']
             self.setRefreshToken(refreshToken)
             self.setFeedToken(feedToken)
-            user=self.getProfile(refreshToken)
-        
-            id=user['data']['clientcode']
-            #id='D88311'
+            user = self.getProfile(refreshToken)
+
+            id = user['data']['clientcode']
+            # id='D88311'
             self.setUserId(id)
-            user['data']['jwtToken']="Bearer "+jwtToken
-            user['data']['refreshToken']=refreshToken
+            user['data']['jwtToken'] = "Bearer " + jwtToken
+            user['data']['refreshToken'] = refreshToken
             user['data']['feedToken'] = feedToken
-            
+
             return user
         else:
             return loginResultObject
+            
     def terminateSession(self,clientCode):
         logoutResponseObject=self._postRequest("api.logout",{"clientcode":clientCode})
         return logoutResponseObject
