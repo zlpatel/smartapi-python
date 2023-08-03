@@ -85,6 +85,10 @@ exchangeTokens= {
 marketData=smartApi.getMarketData(mode, exchangeTokens)
 print("Market Data :", marketData)
 
+exchange = "BSE"
+searchscrip = "Titan"
+searchScripData = smartApi.searchScrip(exchange, searchscrip)
+print("Search Scrip Data :",searchScripData)
 
 params = {
     "exchange": "NSE",
