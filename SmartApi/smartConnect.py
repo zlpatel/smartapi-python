@@ -44,7 +44,9 @@ class SmartConnect(object):
         "api.gtt.details":"/rest/secure/angelbroking/gtt/v1/ruleDetails",
         "api.gtt.list":"/rest/secure/angelbroking/gtt/v1/ruleList",
 
-        "api.candle.data":"/rest/secure/angelbroking/historical/v1/getCandleData"
+        "api.candle.data":"/rest/secure/angelbroking/historical/v1/getCandleData",
+        "api.market.data":"/rest/secure/angelbroking/market/v1/quote",
+        "api.search.scrip": "/rest/secure/angelbroking/order/v1/searchScrip"
     }
 
 
@@ -397,6 +399,34 @@ class SmartConnect(object):
                 del(params[k])
         getCandleDataResponse=self._postRequest("api.candle.data",historicDataParams)
         return getCandleDataResponse
+    
+    def getMarketData(self,mode,exchangeTokens):
+        params={
+            "mode":mode,
+            "exchangeTokens":exchangeTokens
+        }
+        marketDataResult=self._postRequest("api.market.data",params)
+        return marketDataResult
+    
+    def searchScrip(self, exchange, searchscrip):
+        params = {
+            "exchange": exchange,
+            "searchscrip": searchscrip
+        }
+        searchScripResult = self._postRequest("api.search.scrip", params)
+        if searchScripResult["status"] is True and searchScripResult["data"]:
+            message = f"Search successful. Found {len(searchScripResult['data'])} trading symbols for the given query:"
+            symbols = ""
+            for index, item in enumerate(searchScripResult["data"], start=1):
+                symbol_info = f"{index}. exchange: {item['exchange']}, tradingsymbol: {item['tradingsymbol']}, symboltoken: {item['symboltoken']}"
+                symbols += "\n" + symbol_info
+            print(message + symbols)
+            return searchScripResult
+        elif searchScripResult["status"] is True and not searchScripResult["data"]:
+            print("Search successful. No matching trading symbols found for the given query.")
+            return searchScripResult
+        else:
+            return searchScripResult
         
     def _user_agent(self):
         return (__title__ + "-python/").capitalize() + __version__   

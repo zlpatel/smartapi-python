@@ -76,6 +76,19 @@ symboltoken = 3045
 ltp=smartApi.ltpData("NSE", "SBIN-EQ", "3045")
 print("Ltp Data :", ltp)
 
+mode="FULL"
+exchangeTokens= {
+ "NSE": [
+ "3045"
+ ]
+ }
+marketData=smartApi.getMarketData(mode, exchangeTokens)
+print("Market Data :", marketData)
+
+exchange = "BSE"
+searchscrip = "Titan"
+searchScripData = smartApi.searchScrip(exchange, searchscrip)
+print("Search Scrip Data :",searchScripData)
 
 params = {
     "exchange": "NSE",
