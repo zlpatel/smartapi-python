@@ -283,10 +283,10 @@ class SmartConnect(object):
         for k in list(params.keys()):
             if params[k] is None :
                 del(params[k])
-        
-        orderResponse= self._postRequest("api.order.place", params)['data']['orderid']
-    
-        return orderResponse
+        print(json.dumps(params))
+        orderResponse= self._postRequest("api.order.place", params)
+        print(json.dumps(orderResponse))
+        return orderResponse['data']['orderid']
     
     def modifyOrder(self,orderparams):
         params = orderparams
@@ -430,4 +430,3 @@ class SmartConnect(object):
         
     def _user_agent(self):
         return (__title__ + "-python/").capitalize() + __version__   
-
