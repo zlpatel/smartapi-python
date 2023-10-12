@@ -283,8 +283,11 @@ class SmartWebSocketV2(object):
                                                 on_error=self._on_error, on_close=self._on_close, on_data=self._on_data,
                                                 on_ping=self._on_ping,
                                                 on_pong=self._on_pong)
-            self.wsapp.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE}, ping_interval=self.HEART_BEAT_INTERVAL,
-                                   ping_payload=self.HEART_BEAT_MESSAGE)
+            #self.wsapp.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE}, ping_interval=self.HEART_BEAT_INTERVAL,
+            #                       ping_payload=self.HEART_BEAT_MESSAGE)
+            wst = threading.Thread(target=self.wsapp.run_forever,kwargs={'sslopt':{"cert_reqs": ssl.CERT_NONE},'ping_interval':self.HEART_BEAT_INTERVAL,'ping_payload':self.HEART_BEAT_MESSAGE})
+            wst.daemon = True
+            wst.start()
             # self.start_ping_timer()
         except Exception as e:
             raise e
