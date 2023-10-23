@@ -19,7 +19,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     url="https://github.com/angelbroking-github/smartapi-python",
-    packages=["smartapi"],
+    packages=["SmartApi"],
     install_requires=requirements,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
